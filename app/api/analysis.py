@@ -20,11 +20,11 @@ async def analyze_repository_endpoint(
     analysis = analyze_repository(repository, analysis_request, db)
     return analysis
 
-@router.get("/{repo_id}", response_model=schemas.RepositoryResponse)
-async def get_repository(repo_id: int, db: Session = Depends(get_db)):
-    """Get repository details by ID"""
-    repository = db.query(models.Repository).filter(models.Repository.id == repo_id).first()
-    if not repository:
-        raise HTTPException(status_code=404, detail="Repository not found")
-    return repository
+@router.get("/{analysis_id}", response_model=schemas.AnalysisResponse)
+async def get_analysis(analysis_id: int, db: Session = Depends(get_db)):
+    """Get analysis results by ID"""
+    analysis = db.query(models.Analysis).filter(models.Analysis.id == analysis_id).first()
+    if not analysis:
+        raise HTTPException(status_code=404, detail="Analysis not found")
+    return analysis
 

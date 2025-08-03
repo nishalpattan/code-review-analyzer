@@ -57,10 +57,10 @@ def analyze_repository(
         analysis.dead_code_lines = results['dead_code']['dead_code_lines']
 
         # Store detailed results (JSON)
-        analysis.pylint_results = results['pylint']['issues']
-        analysis.bandit_results = results['bandit']['issues']
+        analysis.pylint_results = results['pylint']  # Store complete pylint results dict
+        analysis.bandit_results = results['bandit']  # Store complete bandit results dict
         analysis.complexity_results = results['complexity']['complexity_data']
-        analysis.style_results = results['style']['issues']
+        analysis.style_results = results['style']  # Store complete style results dict
 
         db.commit()
     except Exception as e:
