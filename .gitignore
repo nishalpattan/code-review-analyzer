@@ -193,3 +193,11 @@ htmlcov/
 # Documentation
 site/
 docs/_build/
+
+# Production deployment files
+logs/
+data/
+ssl/
+nginx.conf
+init.sql
+server.log

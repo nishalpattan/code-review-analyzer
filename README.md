@@ -1,13 +1,14 @@
 # Code Review Analyzer 🔍
 
 <div align="center">
-  <img src="https://img.shields.io/badge/Python-3.8+-blue.svg" alt="Python 3.8+">
+  <img src="https://img.shields.io/badge/Python-3.11+-blue.svg" alt="Python 3.11+">
   <img src="https://img.shields.io/badge/FastAPI-0.108+-green.svg" alt="FastAPI">
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT License">
   <img src="https://img.shields.io/badge/Security-Bandit-red.svg" alt="Security">
+  <img src="https://img.shields.io/badge/Docker-Ready-blue.svg" alt="Docker">
 </div>
 
-A comprehensive **Python-based code analysis platform** that provides quality assessment, security scanning, and confidence scoring for code repositories. Built with **FastAPI** and integrated with multiple analysis tools.
+A **production-ready Python code analysis platform** that provides automated quality assessment, security scanning, and confidence scoring for code repositories. Built with **FastAPI**, supports both local development and Docker deployment.
 
 ## 🚀 Features
 
@@ -23,41 +24,148 @@ A comprehensive **Python-based code analysis platform** that provides quality as
 
 ## Quick Start
 
+The project includes a unified run script that handles both local and containerized deployments:
+
+```bash
+# Check system status
+python run.py --status
+
+# Run locally (development mode)
+python run.py --local
+
+# Run in Docker containers (production mode)
+python run.py --docker
+
+# Run comprehensive tests
+python run.py --test
+```
+
+## 🖥️ Local Development
+
 ### Prerequisites
-
-- Python 3.8+
-- Redis (for background tasks)
+- Python 3.11+ 
 - Git
+- Virtual environment support
 
-### Installation
+### Setup & Run
 
-1. **Clone and setup the project:**
 ```bash
+# Clone the repository
+git clone https://github.com/nishalpattan/code-review-analyzer.git
 cd code-review-analyzer
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
+
+# Run locally (automatically creates venv and installs dependencies)
+python run.py --local
 ```
 
-2. **Set up environment variables:**
+**What happens:**
+- ✅ Creates virtual environment if needed
+- ✅ Installs dependencies from `requirements-local.txt` (flexible versions)
+- ✅ Uses SQLite database (no external dependencies)
+- ✅ Starts server with hot reload on http://localhost:8000
+- ✅ Environment variables configured for development
+
+### Local Features
+- **Hot Reload**: Code changes trigger automatic restart
+- **SQLite Database**: No external database required
+- **Flexible Dependencies**: Compatible versions to avoid conflicts
+- **Development Environment**: Debug-friendly settings
+
+## 🐳 Docker Production
+
+### Prerequisites
+- Docker
+- Docker Compose
+
+### Setup & Run
+
 ```bash
-cp .env.example .env
-# Edit .env with your configuration
+# Clone the repository
+git clone https://github.com/nishalpattan/code-review-analyzer.git
+cd code-review-analyzer
+
+# Run in Docker containers
+python run.py --docker
 ```
 
-3. **Start Redis (using Docker):**
+**What happens:**
+- ✅ Builds optimized Docker images
+- ✅ Uses `requirements-docker.txt` (fixed versions for reproducibility)
+- ✅ Starts PostgreSQL and Redis containers
+- ✅ Runs application with Gunicorn (4 workers)
+- ✅ Full production setup with health checks
+
+### Docker Features
+- **Multi-stage Build**: Optimized image size
+- **Production Server**: Gunicorn with Uvicorn workers
+- **PostgreSQL**: Production-grade database
+- **Redis**: Caching and session storage
+- **Health Checks**: Container health monitoring
+- **Non-root User**: Security best practices
+- **Fixed Dependencies**: Reproducible builds
+
+## 📊 System Status
+
+Check your system compatibility:
+
 ```bash
-docker-compose up -d redis
+python run.py --status
 ```
 
-4. **Run the development server:**
+**Output example:**
+```
+📊 Code Review Analyzer - Status
+==================================================
+🐍 Virtual Environment: ✅ Available
+🐳 Docker: ✅ Docker version 24.0.6, build ed223bc
+🌐 Server: ❌ Not running
+🗄️ Database: ✅ SQLite database found
+```
+
+## 🧪 Testing
+
+Run comprehensive API tests:
+
 ```bash
-./run_dev.py
-# or
-python run_dev.py
+# Start server first (local or docker)
+python run.py --local   # or --docker
+
+# Then run tests in another terminal
+python run.py --test
 ```
 
-The API will be available at `http://localhost:8000`
+**Test Coverage:**
+- ✅ Health endpoint
+- ✅ Repository creation
+- ✅ Code analysis workflow
+- ✅ Result retrieval
+- ✅ Error handling
+- ✅ Multiple analysis tools (Pylint, Bandit, Radon, Flake8, Vulture)
+
+### Manual Testing Examples
+
+```bash
+# Health check
+curl http://localhost:8000/health
+
+# Create repository
+curl -X POST "http://localhost:8000/api/v1/repositories/" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "test-repo",
+    "url": "https://github.com/psf/requests.git",
+    "branch": "main",
+    "description": "Test repository"
+  }'
+
+# Start analysis
+curl -X POST "http://localhost:8000/api/v1/analysis/analyze" \
+  -H "Content-Type: application/json" \
+  -d '{"repository_id": 1}'
+
+# Check results
+curl http://localhost:8000/api/v1/analysis/1
+```
 
 ## 📋 System Architecture
 

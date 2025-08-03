@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    build: 
+      context: .
+      target: builder  # Use builder stage for development
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      - ENVIRONMENT=development
+      - DATABASE_URL=sqlite:///./code_analyzer.db
+      - SECRET_KEY=dev-secret-key
+      - REPORT_EMAIL=dev@example.com
+    volumes:
+      - .:/app  # Mount source code for hot reload
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+    profiles:
+      - dev
+
+  postgres:
+    ports:
+      - "5432:5432"
+    
+  redis:
+    ports:
+      - "6379:6379"

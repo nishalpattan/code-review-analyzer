@@ -1,9 +1,0 @@
-# Core Web Framework
-fastapi
-uvicorn
-
-# Database
-sqlalchemy
-
-# Utilities
-python-dotenv

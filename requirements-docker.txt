@@ -1,0 +1,39 @@
+# Docker Production Requirements - Fixed versions for reproducibility
+
+# Web Framework
+fastapi==0.108.0
+uvicorn[standard]==0.25.0
+gunicorn==21.2.0
+
+# Database
+sqlalchemy==2.0.25
+alembic==1.13.1
+
+# Code Analysis Tools (tested versions)
+pylint==3.0.3
+bandit[toml]==1.7.6
+radon==6.0.1
+flake8==7.0.0
+vulture==2.11
+
+# Git Operations
+GitPython==3.1.41
+
+# Data Validation & Serialization
+pydantic==2.5.3
+pydantic-settings==2.1.0
+
+# HTTP Client
+httpx==0.26.0
+requests==2.32.3
+
+# Utilities
+python-dotenv==1.0.1
+structlog==23.2.0
+
+# Security & Authentication
+python-multipart==0.0.6
+cryptography==42.0.0
+
+# Additional production dependencies
+psycopg2-binary==2.9.9  # PostgreSQL support for production
