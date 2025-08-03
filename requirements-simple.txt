@@ -1,0 +1,24 @@
+# Core Web Framework
+fastapi==0.108.0
+uvicorn[standard]==0.25.0
+
+# Database
+sqlalchemy==2.0.25
+
+# Code Analysis Tools
+pylint
+bandit
+radon
+flake8
+black
+
+# Git Operations
+GitPython
+
+# Data Validation
+pydantic==2.5.3
+pydantic-settings==2.1.0
+
+# Utilities
+python-dotenv
+structlog
